@@ -138,16 +138,23 @@ const Contact = () => {
                 <div className="info-item">
                   <h3>Address</h3>
                   <p>
-                    123 Temple Street<br />
-                    City, State 12345<br />
-                    United States
+                    Sri Dharmakara Viharaya<br />
+                    Hikkaduwa Road<br />
+                    Baddegama, Sri Lanka<br />
+                    <a 
+                      href="https://www.google.com/maps?q=6.17134099991851,80.17343505951972" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="map-link"
+                    >
+                      View on Google Maps →
+                    </a>
                   </p>
                 </div>
                 <div className="info-item">
                   <h3>Phone</h3>
                   <p>
-                    Main: (123) 456-7890<br />
-                    Mobile: (123) 456-7891
+                    +94 71 229 7774
                   </p>
                 </div>
                 <div className="info-item">
@@ -165,8 +172,25 @@ const Contact = () => {
                   </p>
                 </div>
               </div>
-              <div className="map-placeholder">
-                <p>Map would be embedded here</p>
+              <div className="map-container">
+                <iframe
+                  src={`https://www.google.com/maps?q=6.17134099991851,80.17343505951972&output=embed&hl=en`}
+                  width="100%"
+                  height="300"
+                  style={{ border: 0, borderRadius: '5px' }}
+                  allowFullScreen=""
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Sri Dharmakara Viharaya Location"
+                ></iframe>
+                <a 
+                  href="https://www.google.com/maps?q=6.17134099991851,80.17343505951972" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="map-link-btn"
+                >
+                  Open in Google Maps
+                </a>
               </div>
             </div>
           </div>
