@@ -1,0 +1,258 @@
+.sermons-page {
+  background-color: #f5f5f5;
+}
+
+.hero-section {
+  background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+  color: white;
+  padding: 80px 0;
+  text-align: center;
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.hero-description {
+  font-size: 1.2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+.sermons-section {
+  background-color: white;
+}
+
+.category-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 40px;
+  padding: 20px 0;
+}
+
+.category-btn {
+  padding: 10px 25px;
+  background-color: #f5f5f5;
+  border: 2px solid #ddd;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #555;
+  transition: all 0.3s ease;
+}
+
+.category-btn:hover {
+  background-color: #e9e9e9;
+  border-color: #8B4513;
+}
+
+.category-btn.active {
+  background-color: #8B4513;
+  color: white;
+  border-color: #8B4513;
+}
+
+.sermons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.sermon-card {
+  background: #f9f9f9;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-top: 4px solid #8B4513;
+}
+
+.sermon-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.sermon-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.sermon-category {
+  background-color: #8B4513;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.sermon-duration {
+  color: #666;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.sermon-title {
+  color: #8B4513;
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.sermon-date {
+  color: #666;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+}
+
+.sermon-date strong {
+  color: #333;
+}
+
+.sermon-description {
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.sermon-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-play {
+  flex: 1;
+  background-color: #8B4513;
+  color: white;
+}
+
+.btn-play:hover {
+  background-color: #6B3410;
+}
+
+.no-sermons {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.upcoming-section {
+  background-color: #f5f5f5;
+}
+
+.upcoming-info {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.upcoming-info > p {
+  color: #555;
+  line-height: 1.8;
+  margin-bottom: 30px;
+  font-size: 1.05rem;
+}
+
+.upcoming-notice {
+  background: #fff9e6;
+  padding: 25px;
+  border-radius: 5px;
+  border-left: 4px solid #FFD700;
+  margin-top: 25px;
+}
+
+.upcoming-notice h3 {
+  color: #8B4513;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+}
+
+.upcoming-notice p {
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+.request-section {
+  background-color: white;
+}
+
+.request-card {
+  background: #f9f9f9;
+  padding: 40px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+  border-top: 4px solid #8B4513;
+}
+
+.request-card h3 {
+  color: #8B4513;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+.request-card p {
+  color: #666;
+  line-height: 1.8;
+  margin-bottom: 30px;
+  font-size: 1.05rem;
+}
+
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  .sermons-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .category-filter {
+    justify-content: flex-start;
+  }
+
+  .category-btn {
+    padding: 8px 20px;
+    font-size: 0.9rem;
+  }
+
+  .sermon-actions {
+    flex-direction: column;
+  }
+
+  .btn-play,
+  .btn-secondary {
+    width: 100%;
+  }
+
+  .upcoming-info {
+    padding: 25px;
+  }
+
+  .request-card {
+    padding: 25px;
+  }
+}
+
