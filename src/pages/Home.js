@@ -1,22 +1,112 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Home.css';
 
 const Home = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Add your slider images here
+  const sliderImages = [
+    '/images/temple01.jpeg',
+    // Add more images here as needed, for example:
+    // '/images/temple02.jpeg',
+    // '/images/temple03.jpeg',
+  ];
+
+  // Auto-play slider
+  useEffect(() => {
+    if (sliderImages.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setCurrentSlide((prevSlide) => 
+        prevSlide === sliderImages.length - 1 ? 0 : prevSlide + 1
+      );
+    }, 5000); // Change slide every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [sliderImages.length]);
+
+  const nextSlide = () => {
+    setCurrentSlide((prevSlide) => 
+      prevSlide === sliderImages.length - 1 ? 0 : prevSlide + 1
+    );
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prevSlide) => 
+      prevSlide === 0 ? sliderImages.length - 1 : prevSlide - 1
+    );
+  };
+
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
+  };
+
   return (
     <div className="home">
-      {/* Hero Section */}
-      <section className="hero">
-        <div className="container">
-          <h1>ශ්‍රී ධර්මාකර විහාරය</h1>
-          <p className="hero-subtitle-sinhala">Sri Dharmakara Viharaya</p>
-          <p className="hero-quote">
-            "Appamado amatapadam – Pamado maccuno padam<br />
-            Appamatta na miyanti – Ye pamatta yatha mata"
-          </p>
-          <p className="hero-subtitle">
-            Mindfulness is the way to the Deathless (Nibbana); unmindfulness is the way to Death. 
-            Those who are mindful do not die; those who are not mindful are as if already dead. – Buddha
-          </p>
+      {/* Hero Section with Slider */}
+      <section className="hero-slider">
+        <div className="slider-container">
+          {sliderImages.map((image, index) => (
+            <div
+              key={index}
+              className={`slide ${index === currentSlide ? 'active' : ''}`}
+              style={{
+                backgroundImage: `url(${image})`
+              }}
+            >
+              <div className="hero-overlay"></div>
+            </div>
+          ))}
+          
+          {/* Navigation Arrows */}
+          {sliderImages.length > 1 && (
+            <>
+              <button 
+                className="slider-btn slider-btn-prev" 
+                onClick={prevSlide}
+                aria-label="Previous slide"
+              >
+                &#8249;
+              </button>
+              <button 
+                className="slider-btn slider-btn-next" 
+                onClick={nextSlide}
+                aria-label="Next slide"
+              >
+                &#8250;
+              </button>
+            </>
+          )}
+
+          {/* Dot Indicators */}
+          {sliderImages.length > 1 && (
+            <div className="slider-dots">
+              {sliderImages.map((_, index) => (
+                <button
+                  key={index}
+                  className={`dot ${index === currentSlide ? 'active' : ''}`}
+                  onClick={() => goToSlide(index)}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Hero Content */}
+          <div className="hero-content">
+            <div className="container">
+              <h1>ශ්‍රී ධර්මාකර විහාරය</h1>
+              <p className="hero-subtitle-sinhala">Sri Dharmakara Viharaya</p>
+              <p className="hero-quote">
+                "Appamado amatapadam – Pamado maccuno padam<br />
+                Appamatta na miyanti – Ye pamatta yatha mata"
+              </p>
+              <p className="hero-subtitle">
+                Mindfulness is the way to the Deathless (Nibbana); unmindfulness is the way to Death. 
+                Those who are mindful do not die; those who are not mindful are as if already dead. – Buddha
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
