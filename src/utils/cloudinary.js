@@ -148,4 +148,56 @@ export const isCloudinaryConfigured = () => {
          process.env.REACT_APP_CLOUDINARY_CLOUD_NAME !== 'your-cloud-name';
 };
 
+/**
+ * Upload an image to Cloudinary using unsigned upload
+ * @param {File} file - The image file to upload
+ * @param {string} folder - The folder path in Cloudinary (e.g., 'gallery/events')
+ * @param {Object} options - Upload options
+ * @param {string} options.uploadPreset - The unsigned upload preset name (required)
+ * @param {Object} options.tags - Tags to add to the image
+ * @returns {Promise<Object>} The upload result containing public_id, secure_url, etc.
+ */
+export const uploadImage = async (file, folder = 'gallery', options = {}) => {
+  const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
+  const uploadPreset = options.uploadPreset || process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
+
+  if (!cloudName || cloudName === 'your-cloud-name') {
+    throw new Error('Cloudinary cloud name is not configured. Please set REACT_APP_CLOUDINARY_CLOUD_NAME in your .env file');
+  }
+
+  if (!uploadPreset) {
+    throw new Error('Upload preset is not configured. Please set REACT_APP_CLOUDINARY_UPLOAD_PRESET in your .env file or pass it in options');
+  }
+
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', uploadPreset);
+  formData.append('folder', folder);
+  
+  if (options.tags && Array.isArray(options.tags)) {
+    formData.append('tags', options.tags.join(','));
+  }
+
+  try {
+    const response = await fetch(
+      `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+      {
+        method: 'POST',
+        body: formData,
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error?.message || 'Upload failed');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Cloudinary upload error:', error);
+    throw error;
+  }
+};
+
 export default cld;

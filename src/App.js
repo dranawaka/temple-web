@@ -9,6 +9,7 @@ import DhammaSermons from './pages/DhammaSermons';
 import Gallery from './pages/Gallery';
 import Contact from './pages/Contact';
 import Donate from './pages/Donate';
+import Admin from './pages/Admin';
 import './App.css';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/donate" element={<Donate />} />
+            <Route path="/admin" element={<Admin />} />
           </Routes>
         </main>
         <Footer />

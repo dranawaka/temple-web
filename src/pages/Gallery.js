@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Gallery.css';
 import { getThumbnail, getResponsiveImage, isCloudinaryConfigured } from '../utils/cloudinary';
 
 const Gallery = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [galleryItems, setGalleryItems] = useState([]);
 
   const categories = [
     { id: 'all', name: 'All Photos' },
@@ -14,6 +15,67 @@ const Gallery = () => {
     { id: 'temple', name: 'Temple' }
   ];
 
+  // Load gallery items from localStorage on component mount
+  useEffect(() => {
+    const loadItems = () => {
+      const stored = localStorage.getItem('galleryItems');
+      if (stored) {
+        try {
+          const items = JSON.parse(stored);
+          setGalleryItems(items);
+        } catch (e) {
+          console.error('Error loading gallery items:', e);
+          // Fallback to default items if localStorage is corrupted
+          setGalleryItems(getDefaultItems());
+        }
+      } else {
+        // If no stored items, use default items (for backward compatibility)
+        setGalleryItems(getDefaultItems());
+      }
+    };
+
+    // Load items on mount
+    loadItems();
+
+    // Listen for storage changes (when admin panel updates items in another tab/window)
+    const handleStorageChange = (e) => {
+      if (e.key === 'galleryItems') {
+        loadItems();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    // Also listen for custom event (for same-tab updates)
+    const handleCustomStorageChange = () => {
+      loadItems();
+    };
+    window.addEventListener('galleryItemsUpdated', handleCustomStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('galleryItemsUpdated', handleCustomStorageChange);
+    };
+  }, []);
+
+  // Helper function to get default gallery items (for backward compatibility)
+  const getDefaultItems = () => {
+    return [
+      { id: 1, category: 'events', title: 'New Year Celebration 2024', imagePublicId: 'gallery/events/new-year-2024' },
+      { id: 2, category: 'poya', title: 'Vesak Poya Day Observance', imagePublicId: 'gallery/poya/vesak-2024' },
+      { id: 3, category: 'dhammaschool', title: 'Dhamma School Children', imagePublicId: 'gallery/dhammaschool/children-2024' },
+      { id: 4, category: 'temple', title: 'Temple Building', imagePublicId: 'gallery/temple/building' },
+      { id: 5, category: 'vassana', title: 'Vassana Retreat 2024', imagePublicId: 'gallery/vassana/retreat-2024' },
+      { id: 6, category: 'events', title: 'Poson Poya Day', imagePublicId: 'gallery/events/poson-2024' },
+      { id: 7, category: 'dhammaschool', title: 'Language Classes', imagePublicId: 'gallery/dhammaschool/language-classes' },
+      { id: 8, category: 'poya', title: 'Esala Poya Observance', imagePublicId: 'gallery/poya/esala-2024' },
+      { id: 9, category: 'temple', title: 'Meditation Hall', imagePublicId: 'gallery/temple/meditation-hall' },
+      { id: 10, category: 'vassana', title: 'Retreat Participants', imagePublicId: 'gallery/vassana/participants-2024' },
+      { id: 11, category: 'events', title: 'Wedding Blessing', imagePublicId: 'gallery/events/wedding-blessing' },
+      { id: 12, category: 'dhammaschool', title: 'Children\'s Program', imagePublicId: 'gallery/dhammaschool/children-program' }
+    ];
+  };
+
   // Helper function to get image URL
   // Uses Cloudinary if configured, otherwise falls back to placeholder
   const getImageUrl = (publicId) => {
@@ -22,25 +84,6 @@ const Gallery = () => {
     }
     return '/api/placeholder/400/300';
   };
-
-  // Gallery items with Cloudinary public IDs
-  // Replace these with your actual Cloudinary image public IDs
-  // Format: { id, category, title, imagePublicId }
-  // Example Cloudinary public IDs: 'gallery/events/new-year-2024', 'gallery/poya/vesak-2024', etc.
-  const galleryItems = [
-    { id: 1, category: 'events', title: 'New Year Celebration 2024', imagePublicId: 'gallery/events/new-year-2024' },
-    { id: 2, category: 'poya', title: 'Vesak Poya Day Observance', imagePublicId: 'gallery/poya/vesak-2024' },
-    { id: 3, category: 'dhammaschool', title: 'Dhamma School Children', imagePublicId: 'gallery/dhammaschool/children-2024' },
-    { id: 4, category: 'temple', title: 'Temple Building', imagePublicId: 'gallery/temple/building' },
-    { id: 5, category: 'vassana', title: 'Vassana Retreat 2024', imagePublicId: 'gallery/vassana/retreat-2024' },
-    { id: 6, category: 'events', title: 'Poson Poya Day', imagePublicId: 'gallery/events/poson-2024' },
-    { id: 7, category: 'dhammaschool', title: 'Language Classes', imagePublicId: 'gallery/dhammaschool/language-classes' },
-    { id: 8, category: 'poya', title: 'Esala Poya Observance', imagePublicId: 'gallery/poya/esala-2024' },
-    { id: 9, category: 'temple', title: 'Meditation Hall', imagePublicId: 'gallery/temple/meditation-hall' },
-    { id: 10, category: 'vassana', title: 'Retreat Participants', imagePublicId: 'gallery/vassana/participants-2024' },
-    { id: 11, category: 'events', title: 'Wedding Blessing', imagePublicId: 'gallery/events/wedding-blessing' },
-    { id: 12, category: 'dhammaschool', title: 'Children\'s Program', imagePublicId: 'gallery/dhammaschool/children-program' }
-  ];
 
   const filteredItems = selectedCategory === 'all' 
     ? galleryItems 
@@ -101,6 +144,9 @@ const Gallery = () => {
           ) : (
             <div className="no-items">
               <p>No photos found in this category.</p>
+              <p style={{ marginTop: '10px', fontSize: '0.9rem', color: '#999' }}>
+                Upload images using the <a href="/admin" style={{ color: '#8B4513' }}>Admin Panel</a>.
+              </p>
             </div>
           )}
         </div>
