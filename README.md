@@ -16,6 +16,7 @@ A modern, responsive website for ශ්‍රී ධර්මාකර විහ
 
 - React 18.2.0
 - React Router DOM 6.20.0
+- Cloudinary (Image hosting and optimization)
 - CSS3 (Responsive design)
 - Modern JavaScript (ES6+)
 
@@ -38,12 +39,14 @@ A modern, responsive website for ශ්‍රී ධර්මාකර විහ
    npm install
    ```
 
-3. Start the development server:
+3. Set up Cloudinary (see Cloudinary Configuration section below)
+
+4. Start the development server:
    ```bash
    npm start
    ```
 
-4. Open your browser and visit `http://localhost:3000`
+5. Open your browser and visit `http://localhost:3000`
 
 ### Building for Production
 
@@ -82,6 +85,8 @@ Temple/
 │   │   ├── Contact.css
 │   │   ├── Donate.js
 │   │   └── Donate.css
+│   ├── utils/
+│   │   └── cloudinary.js
 │   ├── App.js
 │   ├── App.css
 │   ├── index.js
@@ -106,11 +111,47 @@ Temple/
 - Component-specific styles are in their respective CSS files
 - Color scheme can be customized by changing the primary color `#8B4513` (brown) throughout the CSS files
 
+### Cloudinary Configuration
+
+This project uses Cloudinary for image hosting and optimization. Follow these steps to set it up:
+
+1. **Create a Cloudinary account** (if you don't have one):
+   - Visit [https://cloudinary.com](https://cloudinary.com)
+   - Sign up for a free account
+
+2. **Get your Cloudinary credentials**:
+   - Log into your Cloudinary dashboard
+   - Copy your **Cloud Name** from the dashboard
+
+3. **Configure environment variables**:
+   - Create a `.env` file in the root directory of the project
+   - Add the following:
+     ```
+     REACT_APP_CLOUDINARY_CLOUD_NAME=your-cloud-name
+     ```
+   - Replace `your-cloud-name` with your actual Cloudinary cloud name
+
+4. **Upload images to Cloudinary**:
+   - Use the Cloudinary Media Library or API to upload your images
+   - Note the **Public ID** of each uploaded image (e.g., `temple/temple01` or `gallery/events/new-year-2024`)
+
+5. **Update image references**:
+   - **Home Page**: Update the `sliderImages` array in `src/pages/Home.js` with your Cloudinary public IDs
+   - **Gallery**: Update the `galleryItems` array in `src/pages/Gallery.js` with your Cloudinary public IDs
+
+**Note**: If Cloudinary is not configured, the app will fall back to using local images from the `public/images/` folder.
+
 ### Adding Images
 
-1. Place images in the `public` folder
-2. Reference them using `/image-name.jpg` in your components
-3. Update gallery items in `src/pages/Gallery.js` with actual image paths
+**Option 1: Using Cloudinary (Recommended)**
+- Upload images to Cloudinary
+- Use the Cloudinary public IDs in your components
+- Images will be automatically optimized and delivered in the best format
+
+**Option 2: Local Images (Fallback)**
+- Place images in the `public/images/` folder
+- Reference them using `/images/image-name.jpg` in your components
+- Update gallery items in `src/pages/Gallery.js` with actual image paths
 
 ### Integrating Backend
 

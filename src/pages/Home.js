@@ -1,22 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import './Home.css';
+import { getCloudinaryImage, isCloudinaryConfigured } from '../utils/cloudinary';
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Add your slider images here
-  // Use process.env.PUBLIC_URL for proper path resolution in production builds
-  // This ensures images work correctly when deployed to subdirectories (e.g., GitHub Pages)
-  const publicUrl = (process.env.PUBLIC_URL || '').replace(/\/$/, ''); // Remove trailing slash if present
+  // Cloudinary image public IDs for the slider
+  // Replace these with your actual Cloudinary image public IDs
+  // If Cloudinary is not configured, fallback to local images
   const getImagePath = (imageName) => {
-    return `${publicUrl}/images/${imageName}`.replace(/([^:]\/)\/+/g, '$1'); // Remove double slashes
+    if (isCloudinaryConfigured()) {
+      // Use Cloudinary public IDs (update these with your actual public IDs)
+      // Example: if your image is uploaded to Cloudinary with public ID 'temple/temple01'
+      return getCloudinaryImage(imageName, {
+        width: 1920,
+        height: 1080,
+        crop: 'fill',
+        quality: 'auto',
+        format: 'auto'
+      });
+    } else {
+      // Fallback to local images if Cloudinary is not configured
+      const publicUrl = (process.env.PUBLIC_URL || '').replace(/\/$/, '');
+      return `${publicUrl}/images/${imageName}`.replace(/([^:]\/)\/+/g, '$1');
+    }
   };
 
+  // Update these with your Cloudinary public IDs or keep local image names for fallback
+  // Cloudinary public IDs example: 'temple/slider/temple01' or just 'temple01' depending on your folder structure
   const sliderImages = [
-    getImagePath('temple01.jpeg'),
-    getImagePath('temple02.jpeg')
+    getImagePath('temple01'), // Cloudinary public ID or local filename 'temple01.jpeg'
+    getImagePath('temple02')  // Cloudinary public ID or local filename 'temple02.jpeg'
     // Add more images here as needed, for example:
-    // getImagePath('temple03.jpeg'),
+    // getImagePath('temple03'),
   ];
 
   // Auto-play slider

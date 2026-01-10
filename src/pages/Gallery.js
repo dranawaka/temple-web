@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Gallery.css';
+import { getThumbnail, getResponsiveImage, isCloudinaryConfigured } from '../utils/cloudinary';
 
 const Gallery = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -13,20 +14,32 @@ const Gallery = () => {
     { id: 'temple', name: 'Temple' }
   ];
 
-  // Sample gallery items - replace with actual images from backend/API
+  // Helper function to get image URL
+  // Uses Cloudinary if configured, otherwise falls back to placeholder
+  const getImageUrl = (publicId) => {
+    if (isCloudinaryConfigured() && publicId) {
+      return getThumbnail(publicId, 400);
+    }
+    return '/api/placeholder/400/300';
+  };
+
+  // Gallery items with Cloudinary public IDs
+  // Replace these with your actual Cloudinary image public IDs
+  // Format: { id, category, title, imagePublicId }
+  // Example Cloudinary public IDs: 'gallery/events/new-year-2024', 'gallery/poya/vesak-2024', etc.
   const galleryItems = [
-    { id: 1, category: 'events', title: 'New Year Celebration 2024', image: '/api/placeholder/400/300' },
-    { id: 2, category: 'poya', title: 'Vesak Poya Day Observance', image: '/api/placeholder/400/300' },
-    { id: 3, category: 'dhammaschool', title: 'Dhamma School Children', image: '/api/placeholder/400/300' },
-    { id: 4, category: 'temple', title: 'Temple Building', image: '/api/placeholder/400/300' },
-    { id: 5, category: 'vassana', title: 'Vassana Retreat 2024', image: '/api/placeholder/400/300' },
-    { id: 6, category: 'events', title: 'Poson Poya Day', image: '/api/placeholder/400/300' },
-    { id: 7, category: 'dhammaschool', title: 'Language Classes', image: '/api/placeholder/400/300' },
-    { id: 8, category: 'poya', title: 'Esala Poya Observance', image: '/api/placeholder/400/300' },
-    { id: 9, category: 'temple', title: 'Meditation Hall', image: '/api/placeholder/400/300' },
-    { id: 10, category: 'vassana', title: 'Retreat Participants', image: '/api/placeholder/400/300' },
-    { id: 11, category: 'events', title: 'Wedding Blessing', image: '/api/placeholder/400/300' },
-    { id: 12, category: 'dhammaschool', title: 'Children\'s Program', image: '/api/placeholder/400/300' }
+    { id: 1, category: 'events', title: 'New Year Celebration 2024', imagePublicId: 'gallery/events/new-year-2024' },
+    { id: 2, category: 'poya', title: 'Vesak Poya Day Observance', imagePublicId: 'gallery/poya/vesak-2024' },
+    { id: 3, category: 'dhammaschool', title: 'Dhamma School Children', imagePublicId: 'gallery/dhammaschool/children-2024' },
+    { id: 4, category: 'temple', title: 'Temple Building', imagePublicId: 'gallery/temple/building' },
+    { id: 5, category: 'vassana', title: 'Vassana Retreat 2024', imagePublicId: 'gallery/vassana/retreat-2024' },
+    { id: 6, category: 'events', title: 'Poson Poya Day', imagePublicId: 'gallery/events/poson-2024' },
+    { id: 7, category: 'dhammaschool', title: 'Language Classes', imagePublicId: 'gallery/dhammaschool/language-classes' },
+    { id: 8, category: 'poya', title: 'Esala Poya Observance', imagePublicId: 'gallery/poya/esala-2024' },
+    { id: 9, category: 'temple', title: 'Meditation Hall', imagePublicId: 'gallery/temple/meditation-hall' },
+    { id: 10, category: 'vassana', title: 'Retreat Participants', imagePublicId: 'gallery/vassana/participants-2024' },
+    { id: 11, category: 'events', title: 'Wedding Blessing', imagePublicId: 'gallery/events/wedding-blessing' },
+    { id: 12, category: 'dhammaschool', title: 'Children\'s Program', imagePublicId: 'gallery/dhammaschool/children-program' }
   ];
 
   const filteredItems = selectedCategory === 'all' 
@@ -62,23 +75,28 @@ const Gallery = () => {
           {/* Gallery Grid */}
           {filteredItems.length > 0 ? (
             <div className="gallery-grid">
-              {filteredItems.map(item => (
-                <div key={item.id} className="gallery-item">
-                  <div className="gallery-image-container">
-                    <img 
-                      src={item.image} 
-                      alt={item.title}
-                      className="gallery-image"
-                      onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(item.title);
-                      }}
-                    />
-                    <div className="gallery-overlay">
-                      <h3 className="gallery-title">{item.title}</h3>
+              {filteredItems.map(item => {
+                const imageUrl = getImageUrl(item.imagePublicId);
+
+                return (
+                  <div key={item.id} className="gallery-item">
+                    <div className="gallery-image-container">
+                      <img 
+                        src={imageUrl} 
+                        alt={item.title}
+                        className="gallery-image"
+                        loading="lazy"
+                        onError={(e) => {
+                          e.target.src = 'https://via.placeholder.com/400x300?text=' + encodeURIComponent(item.title);
+                        }}
+                      />
+                      <div className="gallery-overlay">
+                        <h3 className="gallery-title">{item.title}</h3>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           ) : (
             <div className="no-items">

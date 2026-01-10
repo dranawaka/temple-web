@@ -7,7 +7,17 @@
    npm install
    ```
 
-2. **Start Development Server**
+2. **Set Up Cloudinary (Optional but Recommended)**
+   - Create a free account at [cloudinary.com](https://cloudinary.com)
+   - Get your Cloud Name from the dashboard
+   - Create a `.env` file in the project root:
+     ```
+     REACT_APP_CLOUDINARY_CLOUD_NAME=your-cloud-name
+     ```
+   - Replace `your-cloud-name` with your actual Cloudinary cloud name
+   - If not set up, the app will use local images as fallback
+
+3. **Start Development Server**
    ```bash
    npm start
    ```
@@ -36,8 +46,16 @@ Edit `src/pages/Contact.js` and update:
 - Office hours
 
 ### 2. Add Real Images
-- Place images in the `public` folder
-- Update image paths in `src/pages/Gallery.js`
+
+**Option A: Using Cloudinary (Recommended)**
+- Upload images to your Cloudinary account
+- Note the Public IDs of your images (e.g., `temple/temple01`, `gallery/events/new-year-2024`)
+- Update `src/pages/Home.js` with Cloudinary public IDs for slider images
+- Update `src/pages/Gallery.js` with Cloudinary public IDs in the `galleryItems` array
+
+**Option B: Local Images (Fallback)**
+- Place images in the `public/images/` folder
+- Update image paths in `src/pages/Home.js` and `src/pages/Gallery.js`
 
 ### 3. Add Sermons
 - Add sermon data to the `sermons` array in `src/pages/DhammaSermons.js`
