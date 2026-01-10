@@ -5,11 +5,18 @@ const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Add your slider images here
+  // Use process.env.PUBLIC_URL for proper path resolution in production builds
+  // This ensures images work correctly when deployed to subdirectories (e.g., GitHub Pages)
+  const publicUrl = (process.env.PUBLIC_URL || '').replace(/\/$/, ''); // Remove trailing slash if present
+  const getImagePath = (imageName) => {
+    return `${publicUrl}/images/${imageName}`.replace(/([^:]\/)\/+/g, '$1'); // Remove double slashes
+  };
+
   const sliderImages = [
-    '/images/temple01.jpeg',
+    getImagePath('temple01.jpeg'),
+    getImagePath('temple02.jpeg')
     // Add more images here as needed, for example:
-    // '/images/temple02.jpeg',
-    // '/images/temple03.jpeg',
+    // getImagePath('temple03.jpeg'),
   ];
 
   // Auto-play slider
