@@ -142,7 +142,7 @@ const Contact = () => {
                     Hikkaduwa Road<br />
                     Baddegama, Sri Lanka<br />
                     <a 
-                      href="https://www.google.com/maps?q=6.17134099991851,80.17343505951972" 
+                      href="https://www.google.com/maps/search/?api=1&query=Sri+Dharmakara+Viharaya,+Hikkaduwa+Road,+Baddegama,+Sri+Lanka" 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="map-link"
@@ -174,7 +174,7 @@ const Contact = () => {
               </div>
               <div className="map-container">
                 <iframe
-                  src={`https://www.google.com/maps?q=6.17134099991851,80.17343505951972&output=embed&hl=en`}
+                  src={`https://www.google.com/maps?q=Sri+Dharmakara+Viharaya,+Hikkaduwa+Road,+Baddegama,+Sri+Lanka&output=embed&hl=en`}
                   width="100%"
                   height="300"
                   style={{ border: 0, borderRadius: '5px' }}
@@ -184,7 +184,7 @@ const Contact = () => {
                   title="Sri Dharmakara Viharaya Location"
                 ></iframe>
                 <a 
-                  href="https://www.google.com/maps?q=6.17134099991851,80.17343505951972" 
+                  href="https://www.google.com/maps/search/?api=1&query=Sri+Dharmakara+Viharaya,+Hikkaduwa+Road,+Baddegama,+Sri+Lanka" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="map-link-btn"
